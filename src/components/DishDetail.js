@@ -12,7 +12,6 @@ class DishdetailComponent extends Component{
     constructor(props){
         super(props)
         
-        
     }
 
     
@@ -33,8 +32,8 @@ class DishdetailComponent extends Component{
         );
     }
 
-    dateBuilder(monthAsNumber){
-    let monthArray = new Array;
+    dateBuilder(monthAsNumberString){
+    let monthArray = [];
         monthArray[0] = "Jan";
         monthArray[1] = "Feb";
         monthArray[2] = "Mar";
@@ -47,23 +46,26 @@ class DishdetailComponent extends Component{
         monthArray[9] = "Oct";
         monthArray[10] = "Nov";
         monthArray[11] = "Dec";
-    return monthArray[monthAsNumber];
+        let monthAsNumberInt = parseInt(monthAsNumberString)-1
+    return monthArray[monthAsNumberInt];
     }
 
 
     dishDescription(dish) {
         if (dish != null){
-            console.log(dish)
-            const date = this.props.selectedDish.date;
-            let [year, month, day] = date.slice(0,10).split("-")
-            let finalDate = day+this.dateBuilder(month)+year
-            const commentsRaw = this.props.selectedDish.comments
-            const commentsToPublish = commentsRaw.map(comments => {
+            const date = dish.comments;
+            console.log(date)
+            
+            const commentsRaw = dish.comments
+            const commentsToPublish = commentsRaw.map(selectedComment => {
+                let [year, month, day] = selectedComment.date.slice(0,10).split("-")
+                console.log(month)
+                let finalDate = day+" "+this.dateBuilder(month)+", "+year
                 return(
                     <p>
-                        {comments.comment}
+                        {selectedComment.comment}
                         <br></br>
-                        -- {comments.author}, {finalDate} 
+                        -- {selectedComment.author}, {finalDate} 
                     </p>
                 )    
             })
@@ -81,7 +83,7 @@ class DishdetailComponent extends Component{
 
     render() {
         return (
-            <div className="row">
+            <div className="row text-left">
                 <div  className="col-12 col-md-5 m-1">
                 {this.renderDish(this.props.selectedDish)}
                 </div>
