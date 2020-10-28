@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import { Media } from 'reactstrap';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody,
-  CardTitle } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody,
+    CardTitle } from 'reactstrap';
 
 
     
@@ -11,7 +10,6 @@ class DishdetailComponent extends Component{
 
     constructor(props){
         super(props)
-        
     }
 
     
@@ -32,6 +30,7 @@ class DishdetailComponent extends Component{
         );
     }
 
+    // dateBuilder method is called by renderComments method
     dateBuilder(monthAsNumberString){
     let monthArray = [];
         monthArray[0] = "Jan";
@@ -51,15 +50,11 @@ class DishdetailComponent extends Component{
     }
 
 
-    dishDescription(dish) {
+    renderComments(dish) {
         if (dish != null){
-            const date = dish.comments;
-            console.log(date)
-            
             const commentsRaw = dish.comments
             const commentsToPublish = commentsRaw.map(selectedComment => {
                 let [year, month, day] = selectedComment.date.slice(0,10).split("-")
-                console.log(month)
                 let finalDate = day+" "+this.dateBuilder(month)+", "+year
                 return(
                     <p>
@@ -89,7 +84,7 @@ class DishdetailComponent extends Component{
                 </div>
                 <div  className="col-12 col-md-5 m-1">
                 <h1>Comments</h1>
-                {this.dishDescription(this.props.selectedDish)}
+                {this.renderComments(this.props.selectedDish)}
                 </div>
             </div>
         )
@@ -98,3 +93,5 @@ class DishdetailComponent extends Component{
 
 
 export default DishdetailComponent;
+
+
